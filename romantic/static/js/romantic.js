@@ -1,0 +1,32 @@
+function setCommentsHandlers(){
+	$('.login_form').submit(function(e){
+		//отменяем стандартное действие при отправке формы
+		e.preventDefault();
+		//берем из формы метод передачи данных
+		var m_method=$(this).attr('method');
+		//получаем адрес скрипта на сервере, куда нужно отправить форму
+		var m_action=$(this).attr('action');
+
+		var m_data=$(this).serialize();
+		var thisForm = $(this);
+
+		$.ajax({
+			type: m_method,
+			url: m_action,
+			data: m_data,
+			success: function(data){
+				if (data.success == false){
+					$('#new_comment_form').addClass("has-error");
+					$('#comment_alert_dander').show()
+					$('#comment_alert_dander').html(data.message)
+				} else {
+					$('#new_comment_form').removeClass("has-error");
+					$('#comment_alert_dander').hide()
+					$('#id_text_comment').val("");
+					$('#power_comments').html(data);
+					setCommentsHandlers();
+				}
+			}
+		});
+	});
+}
