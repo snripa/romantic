@@ -28,6 +28,7 @@ urlpatterns = patterns('',
     url(r'^__debug__/', include(debug_toolbar.urls)),
     url(r'^summernote/', include('django_summernote.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^redactor/', include('redactor.urls'))
 )
 
 if settings.DEBUG:

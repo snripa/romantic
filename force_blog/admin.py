@@ -4,9 +4,21 @@ from django.contrib import admin
 from force_blog.models import BlogPost, AttachedFiles, Category, BlogEdit, DefaultImageBlog
 from django.forms import CharField, ModelForm
 from django_summernote.admin import SummernoteModelAdmin
+from django import forms
+from redactor.widgets import RedactorEditor
 
 
-class BlogPostAdmin(SummernoteModelAdmin):
+class EntryAdminForm(forms.ModelForm):
+    class Meta:
+        model = BlogPost
+        widgets = {
+           'text': RedactorEditor(),
+        }
+
+
+class BlogPostAdmin(admin.ModelAdmin):
+    form = EntryAdminForm
+
     filter_horizontal = ('category',)
     list_display = (
         'title', 'date_publication', 'owner', 'state', 'if_comments')

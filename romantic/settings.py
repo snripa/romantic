@@ -62,6 +62,7 @@ INSTALLED_APPS = (
     'page_navigation',
     'materials',
     'django_summernote',
+    'redactor',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -171,3 +172,12 @@ SOCIAL_AUTH_VK_OAUTH2_SECRET = '5HO4lXQiwRRfuoAFI4mh'
 AUTH_PROFILE_MODULE = "profile.CustomUser"
 
 DEFAULT_BANNER_TITLE = 3
+
+
+REDACTOR_OPTIONS = {'lang': 'ru', 
+                    'plugins': ['table', 'filemanager', 'imagemanager'],
+                    'buttons': ['html', 'formatting', 'bold', 'italic', 'deleted',
+                                 'indent',
+                                'image', 'image', 'table', 'link', 'filemanager', 'alignment', 'horizontalrule']
+                    }
+REDACTOR_UPLOAD = 'uploads/'

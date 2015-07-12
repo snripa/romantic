@@ -8,7 +8,7 @@ from django_summernote.widgets import SummernoteWidget
 
 
 class BlogPostForm(ModelForm):
-    text = forms.CharField(widget=SummernoteWidget())
+    # text = forms.CharField(widget=SummernoteWidget())
 
     class Meta:
         model = BlogPost

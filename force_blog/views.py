@@ -28,7 +28,7 @@ class BlogPostListView(ListView):
     def get_queryset(self):
         if not self.request.user.is_authenticated():
             qs = BlogPost.objects.select_related('owner', 'owner__user').prefetch_related(
-                    'category').exclude(state=0)
+                    'category').exclude(state=DISABLE)
             return qs
         else:
             profile = CustomUser.objects.get(user=self.request.user)
@@ -37,7 +37,7 @@ class BlogPostListView(ListView):
                     'category')
         else:
             qs = BlogPost.objects.select_related('owner', 'owner__user').prefetch_related(
-                    'category').exclude(state=0)
+                    'category').exclude(state=DISABLE)
         return qs
 
     def get_context_data(self, **kwargs):
@@ -62,7 +62,7 @@ class BlogPostArhiveListView(ListView):
 
     def get_queryset(self):
         qs = BlogPost.objects.select_related('owner', 'owner__user').prefetch_related(
-            'category').exclude(state=0)
+            'category').exclude(state=DISABLE)
         return qs
 
 
@@ -115,16 +115,15 @@ def blog_edit(request, blog_id):
             for x in tags:
                 try:
                     tag = Category.objects.get(category=x)
+                    try:
+                        blog.category.add(tag)
+                    except TypeError:
+                        pass
+
                 except ObjectDoesNotExist:
                     pass
                 
-                try:
-                    blog.category.add(tag)
-                except TypeError:
-                    pass
-
-            blog_backup(blog, profile)
-
+            # blog_backup(blog, profile)
             form.save()
             url = u'/blog/%s' % blog_id
             return redirect(url)
