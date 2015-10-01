@@ -7,9 +7,11 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from profile.models import CustomUser
+from captcha.fields import CaptchaField
 
-
+#registerform
 class UserCreateForm(UserCreationForm):
+    captcha = CaptchaField()
     username = forms.CharField(
                 max_length=30,
                 error_messages={'required': 'Миннимум 10 символов'},
@@ -147,3 +149,5 @@ class CustomUserForm(ModelForm):
         self.instance.user.first_name = self.cleaned_data.get('first_name')
         self.instance.user.last_name = self.cleaned_data.get('last_name')
         self.instance.user.save()
+
+

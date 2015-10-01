@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'materials',
     'django_summernote',
     'info_pages',
+    'captcha',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

@@ -18,6 +18,9 @@ from power_comments.models import PowerComment
 from profile.forms import UserCreateForm, UserLoginForm, CustomUserForm
 from profile.models import CustomUser
 from django.contrib.auth import update_session_auth_hash
+from captcha.models import CaptchaStore
+from captcha.helpers import captcha_image_url
+import json
 
 
 class ProfileListView(ListView):
@@ -35,8 +38,30 @@ class RegisterFormView(FormView):
     success_url = "/registration_complete/"
     template_name = "registration_form.html"
 
+    def form_invalid(self, form):
+        if self.request.is_ajax():
+            to_json_response = dict()
+            to_json_response['status'] = 0
+            to_json_response['form_errors'] = form.errors
+
+            to_json_response['new_cptch_key'] = CaptchaStore.generate_key()
+            to_json_response['new_cptch_image'] = captcha_image_url(to_json_response['new_cptch_key'])
+            print ("I'm here")
+
+            return HttpResponse(json.dumps(to_json_response), content_type='application/json')
+
+
     def form_valid(self, form):
         form.save()
+        if self.request.is_ajax():
+            to_json_response = dict()
+            to_json_response['status'] = 1
+
+            to_json_response['new_cptch_key'] = CaptchaStore.generate_key()
+            to_json_response['new_cptch_image'] = captcha_image_url(to_json_response['new_cptch_key'])
+
+            return HttpResponse(json.dumps(to_json_response), content_type='application/json')
+
         last_user = CustomUser.objects.last()
         last_user.user.is_active = False
         last_user.user.save()
