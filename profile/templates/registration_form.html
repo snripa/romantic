@@ -65,13 +65,28 @@
                     <label for="id_last_name">Фамилия</label>
                     {{ form.last_name }}<br>
                 </div>
-                <label for="captcha"></label>
-              {{ form.captcha }}
-              <input type="submit" />
-              <button class='js-captcha-refresh'></button>
+
             </div>
             <br>
-            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Подать заявку</button>
+            <div id = "captcha" align = "left">Докажите, что вы не робот, сложите: 
+            <div class = "row">
+              <div class = "col-xs-1 col-md-1">
+                <div id = "first"></div>
+              </div>
+              <div class = "col-xs-1 col-md-1">
+                <div id = "second"></div>
+              </div>
+              <div class = "col-xs-4 col-md-4">Введите результат:</div>
+              <div class = "col-xs-6 col-md-6">
+                <FORM NAME="capform" ACTION="" METHOD="GET">
+                <INPUT TYPE="text" NAME="inputbox" VALUE="">
+                <INPUT TYPE="button" NAME="button" Value="Доказать" onClick="GetResults(this.form)">
+                </FORM>
+              </div>
+            </div>
+            </div>
+          
+            <button id = "request" class="hidden btn btn-lg btn-primary btn-block btn-signin" type="submit">Подать заявку</button>
         </form>
         {% endif %}
         </div>
